@@ -12,9 +12,14 @@ namespace xbot_joint_state_republisher
       : rclcpp::Node("xbot_joint_state_republisher", options)
   {
     this->declare_parameter<std::string>("output_topic", "/joint_states");
+    const bool sensor_qos = this->declare_parameter<bool>("sensor_qos", false);
+
+    const auto output_qos = sensor_qos
+                                ? rclcpp::SensorDataQoS()
+                                : rclcpp::QoS(rclcpp::KeepLast(10)).reliable().durability_volatile();
 
     publisher_ = create_publisher<CanonicalJointState>(
-        this->get_parameter("output_topic").as_string(), rclcpp::SensorDataQoS());
+        this->get_parameter("output_topic").as_string(), output_qos);
 
     subscription_ = create_subscription<XbotJointState>(
         "/xbotcore/joint_states",

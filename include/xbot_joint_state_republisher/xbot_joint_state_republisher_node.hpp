@@ -2,6 +2,7 @@
 #define XBOT_JOINT_STATE_REPUBLISHER__XBOT_JOINT_STATE_REPUBLISHER_NODE_HPP_
 
 #include <memory>
+#include <string>
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
